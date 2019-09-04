@@ -19,7 +19,8 @@ async function printDiagram(page, options) {
     outputs,
     minDimensions,
     footer,
-    title = true
+    title = true,
+    highlightElements
   } = options;
 
   const diagramXML = readFileSync(input, 'utf8');
@@ -30,10 +31,8 @@ async function printDiagram(page, options) {
 
   await page.goto(`file://${__dirname}/skeleton.html`);
 
-  const viewerScript = relative(__dirname, require.resolve('bpmn-js/dist/bpmn-viewer.production.min.js'));
-
+  const viewerScript = relative(__dirname, require.resolve('bpmn-js/dist/bpmn-viewer.development.js'));
   const desiredViewport = await page.evaluate(async function(diagramXML, options) {
-
     const {
       viewerScript,
       ...openOptions
@@ -47,8 +46,9 @@ async function printDiagram(page, options) {
     minDimensions,
     title: diagramTitle,
     viewerScript,
-    footer
-  });;
+    footer,
+    highlightElements
+  });
 
   page.setViewport({
     width: Math.round(desiredViewport.width),
@@ -104,7 +104,8 @@ async function withPage(fn) {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox'
-      ]
+      ],
+      devtools: true
     });
 
     await fn(await browser.newPage());
@@ -121,7 +122,8 @@ async function convertAll(conversions, options={}) {
   const {
     minDimensions,
     footer,
-    title
+    title,
+    highlightElements
   } = options;
 
   await withPage(async function(page) {
@@ -138,7 +140,8 @@ async function convertAll(conversions, options={}) {
         outputs,
         minDimensions,
         title,
-        footer
+        footer,
+        highlightElements
       });
     }
 
@@ -148,13 +151,13 @@ async function convertAll(conversions, options={}) {
 
 module.exports.convertAll = convertAll;
 
-async function convert(input, output) {
+async function convert(input, output, options) {
   return await convertAll([
     {
       input,
       outputs: [ output ]
     }
-  ]);
+  ], options);
 }
 
 

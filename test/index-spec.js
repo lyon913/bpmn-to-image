@@ -29,10 +29,10 @@ describe('index', function() {
 
   process.env.NO_CLEANUP || afterEach(async function() {
 
-    await del([
-      '*.png',
-      '*.pdf'
-    ], { cwd: __dirname });
+    // await del([
+    //   '*.png',
+    //   '*.pdf'
+    // ], { cwd: __dirname });
 
   });
 
@@ -64,7 +64,7 @@ describe('index', function() {
     it('should apply defaults', async function() {
 
       // when
-      await convert(input, outputPNG);
+      await convert(input, outputPNG,{highlightElements: ['sid-E49425CF-8287-4798-B622-D2A7D78EF00B']});
 
       // then
       expectExists(outputPNG, true);

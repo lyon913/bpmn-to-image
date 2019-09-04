@@ -3,9 +3,6 @@
   "version": "0.4.0",
   "description": "Convert a BPMN 2.0 diagrams to PDF, SVG or PNG images",
   "main": "index.js",
-  "bin": {
-    "bpmn-to-image": "./cli.js"
-  },
   "scripts": {
     "all": "run-s test",
     "test": "mocha"
@@ -20,7 +17,6 @@
     "image",
     "export",
     "converter",
-    "cli",
     "pdf",
     "png",
     "svg"

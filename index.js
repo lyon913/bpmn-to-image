@@ -104,8 +104,7 @@ async function withPage(fn) {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox'
-      ],
-      devtools: true
+      ]
     });
 
     await fn(await browser.newPage());
